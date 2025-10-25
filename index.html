@@ -10,8 +10,8 @@
   .container {max-width:900px;width:100%; background:white; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.1);}
   h1 {text-align:center;margin-bottom:25px;color:#0072ff;}
   form {display:flex; flex-direction:column; gap:15px;}
-  select, input, textarea {padding:10px;border-radius:8px;border:1px solid #ccc;font-size:1rem;width:100%;}
-  button {padding:12px;border:none;border-radius:10px;background:#0072ff;color:white;font-weight:bold;cursor:pointer;transition:.3s;}
+  input, textarea, button {padding:10px;border-radius:8px;border:1px solid #ccc;font-size:1rem;width:100%;}
+  button {border:none;background:#0072ff;color:white;font-weight:bold;cursor:pointer;transition:.3s;}
   button:hover {background:#005fd1;}
   .resume-preview {margin-top:30px;padding-top:20px;display:none;}
   .resume-section {margin-bottom:15px;}
@@ -24,6 +24,7 @@
   .modern-template {background:#fefefe;color:#111;border-left:6px solid #0072ff;padding:20px;border-radius:10px;}
   .multi-select {border:1px solid #ccc;border-radius:8px; max-height:150px; overflow-y:auto; padding:5px;}
   .multi-select label{display:block;margin:2px 0;cursor:pointer;}
+  .search-input {margin-bottom:5px;padding:5px;border-radius:5px;border:1px solid #ccc;}
 </style>
 </head>
 <body>
@@ -32,33 +33,39 @@
 <form id="resumeForm">
   <input type="text" id="fullName" placeholder="Full Name" required />
 
-  <!-- Scrollable Job Title -->
-  <select id="role" required>
-    <option value="">Select Job Title</option>
-    <option>Software Developer</option>
-    <option>Front-end Developer</option>
-    <option>Back-end Developer</option>
-    <option>Full Stack Developer</option>
-    <option>Data Analyst</option>
-    <option>UI/UX Designer</option>
-    <option>System Administrator</option>
-    <option>Cyber Security Analyst</option>
-    <option>Project Manager</option>
-  </select>
+  <!-- Scrollable & searchable Job Title -->
+  <div>
+    <label for="roleSearch">Job Title:</label>
+    <input type="text" id="roleSearch" class="search-input" placeholder="Search job title...">
+    <div id="roleList" class="multi-select">
+      <label><input type="radio" name="role" value="Software Developer"> Software Developer</label>
+      <label><input type="radio" name="role" value="Front-end Developer"> Front-end Developer</label>
+      <label><input type="radio" name="role" value="Back-end Developer"> Back-end Developer</label>
+      <label><input type="radio" name="role" value="Full Stack Developer"> Full Stack Developer</label>
+      <label><input type="radio" name="role" value="Data Analyst"> Data Analyst</label>
+      <label><input type="radio" name="role" value="UI/UX Designer"> UI/UX Designer</label>
+      <label><input type="radio" name="role" value="System Administrator"> System Administrator</label>
+      <label><input type="radio" name="role" value="Cyber Security Analyst"> Cyber Security Analyst</label>
+      <label><input type="radio" name="role" value="Project Manager"> Project Manager</label>
+    </div>
+  </div>
 
   <!-- Summary -->
   <textarea id="summary" placeholder="Professional Summary"></textarea>
 
-  <!-- College Dropdown -->
-  <select id="college">
-    <option value="">Select College</option>
-    <option>GNIMT, Ludhiana</option>
-    <option>LPU, Phagwara</option>
-    <option>GNDU, Amritsar</option>
-    <option>Punjab University, Chandigarh</option>
-    <option>PAU, Ludhiana</option>
-    <option>Chitkara University, Chandigarh</option>
-  </select>
+  <!-- Scrollable & searchable College -->
+  <div>
+    <label for="collegeSearch">College:</label>
+    <input type="text" id="collegeSearch" class="search-input" placeholder="Search college...">
+    <div id="collegeList" class="multi-select">
+      <label><input type="radio" name="college" value="GNIMT, Ludhiana"> GNIMT, Ludhiana</label>
+      <label><input type="radio" name="college" value="LPU, Phagwara"> LPU, Phagwara</label>
+      <label><input type="radio" name="college" value="GNDU, Amritsar"> GNDU, Amritsar</label>
+      <label><input type="radio" name="college" value="Punjab University, Chandigarh"> Punjab University, Chandigarh</label>
+      <label><input type="radio" name="college" value="PAU, Ludhiana"> PAU, Ludhiana</label>
+      <label><input type="radio" name="college" value="Chitkara University, Chandigarh"> Chitkara University, Chandigarh</label>
+    </div>
+  </div>
 
   <!-- Experience -->
   <textarea id="experience" placeholder="Experience (comma-separated: Role, Company, Duration)"></textarea>
@@ -66,18 +73,22 @@
   <!-- Projects -->
   <textarea id="projects" placeholder="Projects (comma-separated: Project Name - Description)"></textarea>
 
-  <!-- Skills multi-select -->
-  <div class="multi-select" id="skillsContainer">
-    <label><input type="checkbox" value="HTML"> HTML</label>
-    <label><input type="checkbox" value="CSS"> CSS</label>
-    <label><input type="checkbox" value="JavaScript"> JavaScript</label>
-    <label><input type="checkbox" value="React"> React</label>
-    <label><input type="checkbox" value="Node.js"> Node.js</label>
-    <label><input type="checkbox" value="Python"> Python</label>
-    <label><input type="checkbox" value="Java"> Java</label>
-    <label><input type="checkbox" value="SQL"> SQL</label>
-    <label><input type="checkbox" value="Git"> Git</label>
-    <label><input type="checkbox" value="Linux"> Linux</label>
+  <!-- Scrollable & searchable Skills multi-select -->
+  <div>
+    <label for="skillsSearch">Skills:</label>
+    <input type="text" id="skillsSearch" class="search-input" placeholder="Search skills...">
+    <div id="skillsContainer" class="multi-select">
+      <label><input type="checkbox" value="HTML"> HTML</label>
+      <label><input type="checkbox" value="CSS"> CSS</label>
+      <label><input type="checkbox" value="JavaScript"> JavaScript</label>
+      <label><input type="checkbox" value="React"> React</label>
+      <label><input type="checkbox" value="Node.js"> Node.js</label>
+      <label><input type="checkbox" value="Python"> Python</label>
+      <label><input type="checkbox" value="Java"> Java</label>
+      <label><input type="checkbox" value="SQL"> SQL</label>
+      <label><input type="checkbox" value="Git"> Git</label>
+      <label><input type="checkbox" value="Linux"> Linux</label>
+    </div>
   </div>
 
   <button type="submit">Generate Resume</button>
@@ -109,16 +120,30 @@ const form = document.getElementById('resumeForm');
 const resumePreview = document.getElementById('resumePreview');
 const resumeContent = document.getElementById('resumeContent');
 
+// Search filter function
+function setupSearch(inputId, containerId){
+  const searchInput = document.getElementById(inputId);
+  const container = document.getElementById(containerId);
+  searchInput.addEventListener('input', ()=>{
+    const filter = searchInput.value.toLowerCase();
+    container.querySelectorAll('label').forEach(label=>{
+      label.style.display = label.textContent.toLowerCase().includes(filter) ? 'block' : 'none';
+    });
+  });
+}
+setupSearch('collegeSearch','collegeList');
+setupSearch('roleSearch','roleList');
+setupSearch('skillsSearch','skillsContainer');
+
+// Form submit
 form.addEventListener('submit', function(e){
   e.preventDefault();
   const name = document.getElementById('fullName').value;
-  const role = document.getElementById('role').value;
+  const role = document.querySelector('#roleList input[name="role"]:checked')?.value || '';
   const summary = document.getElementById('summary').value;
-  const college = document.getElementById('college').value;
+  const college = document.querySelector('#collegeList input[name="college"]:checked')?.value || '';
   const experience = document.getElementById('experience').value.split(',').map(s=>s.trim());
   const projects = document.getElementById('projects').value.split(',').map(s=>s.trim());
-
-  // Skills selection
   const skillsNodes = document.querySelectorAll('#skillsContainer input:checked');
   const skills = Array.from(skillsNodes).map(n=>n.value);
 
@@ -126,12 +151,9 @@ form.addEventListener('submit', function(e){
   document.getElementById('nameRole').innerText = `${name} - ${role}`;
   document.getElementById('resSummary').innerText = summary || 'No summary provided';
   document.getElementById('resSummaryTip').innerText = 'Tip: Start summary with achievements!';
-
   document.getElementById('resCollege').innerText = college || 'No college selected';
-
   const expList = document.getElementById('resExperience'); expList.innerHTML=''; experience.forEach(item=>{if(item) expList.innerHTML+=`<li>${item}</li>`});
   const projList = document.getElementById('resProjects'); projList.innerHTML=''; projects.forEach(item=>{if(item) projList.innerHTML+=`<li>${item}</li>`});
-
   document.getElementById('resSkills').innerText = skills.join(', ') || 'No skills selected';
   document.getElementById('resSkillsTip').innerText = skills.length ? 'Tip: Include measurable skills for impact!' : 'Tip: Select key skills from list';
 
@@ -145,15 +167,15 @@ window.addEventListener('load', ()=>{
   const params = new URLSearchParams(window.location.search);
   if(params.has('name')){
     document.getElementById('fullName').value = params.get('name');
-    document.getElementById('role').value = params.get('role');
+    const roleVal = params.get('role');
+    document.querySelectorAll('#roleList input').forEach(r=>r.checked = r.value===roleVal);
     document.getElementById('summary').value = params.get('summary');
-    document.getElementById('college').value = params.get('college');
+    const collegeVal = params.get('college');
+    document.querySelectorAll('#collegeList input').forEach(c=>c.checked = c.value===collegeVal);
     document.getElementById('experience').value = params.get('experience')?.split('|').join(',') || '';
     document.getElementById('projects').value = params.get('projects')?.split('|').join(',') || '';
     const skillsList = params.get('skills')?.split('|') || [];
-    document.querySelectorAll('#skillsContainer input').forEach(input=>{
-      input.checked = skillsList.includes(input.value);
-    });
+    document.querySelectorAll('#skillsContainer input').forEach(input=>{input.checked = skillsList.includes(input.value)});
     form.dispatchEvent(new Event('submit'));
   }
 });
@@ -170,3 +192,4 @@ document.getElementById('pdfBtn').addEventListener('click',()=>{
 </script>
 </body>
 </html>
+
