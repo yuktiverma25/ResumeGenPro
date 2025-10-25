@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ResumeGenPro - Dynamic Resume Generator</title>
+<title>ResumeGenPro - Interactive Resume Generator</title>
 <style>
-  * {margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif;}
+  * {margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
   body {background:#f0f4f8; display:flex; justify-content:center; padding:20px;}
-  .container {max-width:900px; width:100%; background:white; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.1);}
-  h1 {text-align:center; margin-bottom:25px; color:#0072ff;}
+  .container {max-width:900px;width:100%; background:white; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.1);}
+  h1 {text-align:center;margin-bottom:25px;color:#0072ff;}
   form {display:flex; flex-direction:column; gap:15px;}
-  input, textarea, select {padding:10px; border-radius:8px; border:1px solid #ccc; font-size:1rem; width:100%;}
-  button {padding:12px; border:none; border-radius:10px; background:#0072ff; color:white; font-weight:bold; cursor:pointer; transition:.3s;}
+  select, input, textarea {padding:10px;border-radius:8px;border:1px solid #ccc;font-size:1rem;width:100%;}
+  button {padding:12px;border:none;border-radius:10px;background:#0072ff;color:white;font-weight:bold;cursor:pointer;transition:.3s;}
   button:hover {background:#005fd1;}
-  .resume-preview {margin-top:30px; padding-top:20px; display:none;}
+  .resume-preview {margin-top:30px;padding-top:20px;display:none;}
   .resume-section {margin-bottom:15px;}
   .resume-section h2 {margin-bottom:8px;}
   .template-toggle {margin-top:15px; display:flex; justify-content:center; gap:10px;}
-  .template-toggle button {background:#00c6ff; color:white;}
-  footer {text-align:center; margin-top:20px; font-size:0.8rem; opacity:0.8;}
-  .light-template {background:#fff; color:#333; padding:20px; border-radius:10px;}
-  .dark-template {background:#222; color:#f0f0f0; padding:20px; border-radius:10px;}
-  .modern-template {background:#fefefe; color:#111; border-left:6px solid #0072ff; padding:20px; border-radius:10px;}
-  @media(max-width:600px){.container{padding:20px;}}
+  .template-toggle button {background:#00c6ff;color:white;}
+  footer {text-align:center;margin-top:20px;font-size:0.8rem;opacity:0.8;}
+  .light-template {background:#fff;color:#333;padding:20px;border-radius:10px;}
+  .dark-template {background:#222;color:#f0f0f0;padding:20px;border-radius:10px;}
+  .modern-template {background:#fefefe;color:#111;border-left:6px solid #0072ff;padding:20px;border-radius:10px;}
+  .multi-select {border:1px solid #ccc;border-radius:8px; max-height:150px; overflow-y:auto; padding:5px;}
+  .multi-select label{display:block;margin:2px 0;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -30,12 +31,55 @@
 <h1>ResumeGenPro</h1>
 <form id="resumeForm">
   <input type="text" id="fullName" placeholder="Full Name" required />
-  <input type="text" id="role" placeholder="Your Role / Job Title" required />
+
+  <!-- Scrollable Job Title -->
+  <select id="role" required>
+    <option value="">Select Job Title</option>
+    <option>Software Developer</option>
+    <option>Front-end Developer</option>
+    <option>Back-end Developer</option>
+    <option>Full Stack Developer</option>
+    <option>Data Analyst</option>
+    <option>UI/UX Designer</option>
+    <option>System Administrator</option>
+    <option>Cyber Security Analyst</option>
+    <option>Project Manager</option>
+  </select>
+
+  <!-- Summary -->
   <textarea id="summary" placeholder="Professional Summary"></textarea>
-  <textarea id="education" placeholder="Education (comma-separated: Degree, College, Year)"></textarea>
+
+  <!-- College Dropdown -->
+  <select id="college">
+    <option value="">Select College</option>
+    <option>GNIMT, Ludhiana</option>
+    <option>LPU, Phagwara</option>
+    <option>GNDU, Amritsar</option>
+    <option>Punjab University, Chandigarh</option>
+    <option>PAU, Ludhiana</option>
+    <option>Chitkara University, Chandigarh</option>
+  </select>
+
+  <!-- Experience -->
   <textarea id="experience" placeholder="Experience (comma-separated: Role, Company, Duration)"></textarea>
+
+  <!-- Projects -->
   <textarea id="projects" placeholder="Projects (comma-separated: Project Name - Description)"></textarea>
-  <textarea id="skills" placeholder="Skills (comma-separated)"></textarea>
+
+  <!-- Skills multi-select -->
+  <div class="multi-select" id="skillsContainer">
+    <label><input type="checkbox" value="HTML"> HTML</label>
+    <label><input type="checkbox" value="CSS"> CSS</label>
+    <label><input type="checkbox" value="JavaScript"> JavaScript</label>
+    <label><input type="checkbox" value="React"> React</label>
+    <label><input type="checkbox" value="Node.js"> Node.js</label>
+    <label><input type="checkbox" value="Python"> Python</label>
+    <label><input type="checkbox" value="Java"> Java</label>
+    <label><input type="checkbox" value="SQL"> SQL</label>
+    <label><input type="checkbox" value="Git"> Git</label>
+    <label><input type="checkbox" value="Linux"> Linux</label>
+  </div>
+
   <button type="submit">Generate Resume</button>
 </form>
 
@@ -50,7 +94,7 @@
   <div id="resumeContent" class="light-template">
     <div class="resume-section"><h2 id="nameRole"></h2></div>
     <div class="resume-section"><h2>Summary</h2><p id="resSummary"></p><p id="resSummaryTip" style="font-size:0.9rem;color:#0072ff;"></p></div>
-    <div class="resume-section"><h2>Education</h2><ul id="resEducation"></ul></div>
+    <div class="resume-section"><h2>College</h2><p id="resCollege"></p></div>
     <div class="resume-section"><h2>Experience</h2><ul id="resExperience"></ul></div>
     <div class="resume-section"><h2>Projects</h2><ul id="resProjects"></ul></div>
     <div class="resume-section"><h2>Skills</h2><p id="resSkills"></p><p id="resSkillsTip" style="font-size:0.9rem;color:#0072ff;"></p></div>
@@ -70,25 +114,29 @@ form.addEventListener('submit', function(e){
   const name = document.getElementById('fullName').value;
   const role = document.getElementById('role').value;
   const summary = document.getElementById('summary').value;
-  const education = document.getElementById('education').value.split(',').map(s=>s.trim());
+  const college = document.getElementById('college').value;
   const experience = document.getElementById('experience').value.split(',').map(s=>s.trim());
   const projects = document.getElementById('projects').value.split(',').map(s=>s.trim());
-  const skills = document.getElementById('skills').value;
+
+  // Skills selection
+  const skillsNodes = document.querySelectorAll('#skillsContainer input:checked');
+  const skills = Array.from(skillsNodes).map(n=>n.value);
 
   resumePreview.style.display='block';
   document.getElementById('nameRole').innerText = `${name} - ${role}`;
   document.getElementById('resSummary').innerText = summary || 'No summary provided';
-  document.getElementById('resSummaryTip').innerText = 'Tip: Start summary with achievements to impress recruiters!';
+  document.getElementById('resSummaryTip').innerText = 'Tip: Start summary with achievements!';
 
-  const eduList = document.getElementById('resEducation'); eduList.innerHTML = ''; education.forEach(item=>{if(item) eduList.innerHTML+=`<li>${item}</li>`});
-  const expList = document.getElementById('resExperience'); expList.innerHTML = ''; experience.forEach(item=>{if(item) expList.innerHTML+=`<li>${item}</li>`});
-  const projList = document.getElementById('resProjects'); projList.innerHTML = ''; projects.forEach(item=>{if(item) projList.innerHTML+=`<li>${item}</li>`});
+  document.getElementById('resCollege').innerText = college || 'No college selected';
 
-  document.getElementById('resSkills').innerText = skills || 'No skills provided';
-  document.getElementById('resSkillsTip').innerText = skills ? 'Tip: Include measurable skills for impact!' : 'Tip: Add key skills separated by commas.';
+  const expList = document.getElementById('resExperience'); expList.innerHTML=''; experience.forEach(item=>{if(item) expList.innerHTML+=`<li>${item}</li>`});
+  const projList = document.getElementById('resProjects'); projList.innerHTML=''; projects.forEach(item=>{if(item) projList.innerHTML+=`<li>${item}</li>`});
 
-  // Update shareable URL
-  const params = new URLSearchParams({name, role, summary, education:education.join('|'), experience:experience.join('|'), projects:projects.join('|'), skills});
+  document.getElementById('resSkills').innerText = skills.join(', ') || 'No skills selected';
+  document.getElementById('resSkillsTip').innerText = skills.length ? 'Tip: Include measurable skills for impact!' : 'Tip: Select key skills from list';
+
+  // Shareable URL
+  const params = new URLSearchParams({name, role, summary, college, experience:experience.join('|'), projects:projects.join('|'), skills:skills.join('|')});
   history.replaceState(null,'',`?${params}`);
 });
 
@@ -99,10 +147,13 @@ window.addEventListener('load', ()=>{
     document.getElementById('fullName').value = params.get('name');
     document.getElementById('role').value = params.get('role');
     document.getElementById('summary').value = params.get('summary');
-    document.getElementById('education').value = params.get('education')?.split('|').join(',') || '';
+    document.getElementById('college').value = params.get('college');
     document.getElementById('experience').value = params.get('experience')?.split('|').join(',') || '';
     document.getElementById('projects').value = params.get('projects')?.split('|').join(',') || '';
-    document.getElementById('skills').value = params.get('skills');
+    const skillsList = params.get('skills')?.split('|') || [];
+    document.querySelectorAll('#skillsContainer input').forEach(input=>{
+      input.checked = skillsList.includes(input.value);
+    });
     form.dispatchEvent(new Event('submit'));
   }
 });
